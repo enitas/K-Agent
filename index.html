@@ -1,79 +1,74 @@
-<!-- BARRE SYSTÈME GLOBALE (CHRONO ET ÉTAT) -->
-<header class="sys-bar">
+<!-- BARRE DE HEADER PERMANENTE -->
+<header class="sys-header">
   <div class="timer-display">
     <span id="global-timer">30:00</span>
-    <span id="penalty-badge" class="penalty-badge hidden">-2 MIN</span>
+    <span id="penalty-indicator" class="penalty-badge hidden">-2 MIN</span>
   </div>
-  <div style="font-size: 0.65rem; text-align: right;">
-    <div><span class="pulse-dot"></span><span id="status-network">OFFLINE OK</span></div>
-    <div id="gps-status-text" style="color: var(--text-amber);">GPS: INITIALISATION</div>
+  <div style="font-size: 0.65rem; color: var(--text-amber);" id="gps-status">
+    GPS: PENDING
   </div>
 </header>
 
-<!-- ========================================== -->
-<!-- VUE 1 : ACCUEIL                            -->
-<!-- ========================================== -->
+<!-- VUE 1 : ACCUEIL -->
 <section id="view-home" class="view">
-  <div>
-    <h1 class="hero-title">K-AGENT</h1>
+  <div class="title-block">
+    <h1 class="glitch-title">K-AGENT</h1>
     <p class="subtitle">[ PROTOCOLE V.I.L.L.A.G.E — Z O N E 0 7 ]</p>
-    
+  </div>
+
+  <div>
     <div class="card-panel">
       <div class="card-title">// ÉTAT DU SYSTÈME</div>
-      <p style="font-size: 0.8rem; margin-bottom: 5px;">
-        <span style="color:var(--text-dim);">PROTOCOLE:</span> 
+      <p style="font-size: 0.8rem; margin-bottom: 4px;">
+        <span style="color:#777;">PROTOCOLE:</span> 
         <span class="blink" style="color:var(--text-red);">SADIQUE (PASS-AND-PLAY)</span>
       </p>
       <p style="font-size: 0.8rem;">
-        <span style="color:var(--text-dim);">SURVEILLANCE GPS:</span> 
+        <span style="color:#777;">SURVEILLANCE GPS:</span> 
         <span style="color:var(--text-green);">ACTIVE (2 MIN IMMOBILE)</span>
       </p>
     </div>
 
     <div class="card-panel" style="border-color:#222; font-size:0.7rem;">
       <div style="display:flex; justify-content:space-around;">
-        <span id="check-gps" style="color:var(--text-green);">GPS: READY</span>
-        <span id="check-cam" style="color:var(--text-green);">CAM: READY</span>
-        <span id="check-sw" style="color:var(--text-green);">SW: OK</span>
+        <span id="check-gps">GPS: ...</span>
+        <span id="check-cam">CAM: ...</span>
+        <span id="check-sw">OFFLINE: OK</span>
       </div>
     </div>
   </div>
 
   <nav class="action-menu">
-    <button class="btn btn-primary" id="btn-start-init">
+    <button class="btn" id="btn-start-init">
       <span class="btn-text">DÉBUTER L'INFILTRATION</span>
       <span class="btn-sub">NOUVELLE SESSION D'ÉQUIPE</span>
     </button>
 
     <button class="btn btn-secondary" id="btn-resume-code">
       <span class="btn-text">REJOINDRE UNE SESSION</span>
-      <span class="btn-sub">CHARGER UNE SAUVEGARDE</span>
+      <span class="btn-sub">SAISIR UN CODE D'ACCÈS</span>
     </button>
   </nav>
 </section>
 
-<!-- ========================================== -->
-<!-- VUE 2 : CRÉATION D'ÉQUIPE                   -->
-<!-- ========================================== -->
+<!-- VUE 2 : CRÉATION D'ÉQUIPE -->
 <section id="view-team" class="view hidden">
   <div>
-    <div class="card-title" style="color:var(--text-green);">// ENREGISTREMENT DES AGENTS (2 À 6 MAX)</div>
-    <p style="font-size: 0.75rem; color: #888; margin-bottom: 15px;">
+    <div class="card-title">// ENREGISTREMENT DES AGENTS (2 À 6 MAX)</div>
+    <p style="font-size:0.75rem; color:#777; margin-bottom:15px;">
       Inscrivez les prénoms des participants. L'application désignera aléatoirement les victimes des directives.
     </p>
 
     <div class="input-group">
       <input type="text" id="agent-input" class="text-input" placeholder="NOM DE CODE..." maxlength="12">
-      <button class="btn btn-primary" id="btn-add-agent" style="width: auto; padding: 10px 15px;">[+]</button>
+      <button class="btn" id="btn-add-agent" style="width: auto; padding: 10px 15px;">[+]</button>
     </div>
 
-    <ul id="agent-list" class="agent-list">
-      <!-- Injecté en JS -->
-    </ul>
+    <ul id="agent-list" class="agent-list"></ul>
   </div>
 
   <div class="action-menu">
-    <button class="btn btn-primary hidden" id="btn-validate-team">
+    <button class="btn hidden" id="btn-validate-team">
       <span class="btn-text">VERROUILLER L'ÉQUIPE</span>
       <span class="btn-sub">LANCER LE COMPTE À REBOURS</span>
     </button>
@@ -81,15 +76,13 @@
   </div>
 </section>
 
-<!-- ========================================== -->
-<!-- VUE 3 : TABLEAU DE BORD DU JEU             -->
-<!-- ========================================== -->
+<!-- VUE 3 : TABLEAU DE BORD (HUB JEU) -->
 <section id="view-dashboard" class="view hidden">
   <div>
-    <div class="card-panel" style="border-color: var(--text-green);">
-      <div class="card-title">// OBJECTIF DE TERRAIN</div>
-      <p id="dashboard-objective-text" style="font-size:0.85rem; color:#fff; line-height:1.3;">
-        Explorez le village et localisez les symboles secrets. Restez en mouvement.
+    <div class="card-title" style="color:var(--text-green);">// OBJECTIF DE TERRAIN</div>
+    <div class="card-panel">
+      <p id="current-objective" style="font-size:0.85rem; color:#fff; line-height:1.4;">
+        Explorez le village. Utilisez le radar GPS ou scannez un QR Code pour débloquer la première étape.
       </p>
     </div>
 
@@ -102,7 +95,7 @@
   </div>
 
   <div class="action-menu">
-    <button class="btn btn-primary" id="btn-open-scanner">
+    <button class="btn" id="btn-open-scanner">
       <span class="btn-text">SCANNER UN CODE QR</span>
       <span class="btn-sub">VALIDER UNE ÉNIGME PHYSIQUE</span>
     </button>
@@ -119,9 +112,7 @@
   </div>
 </section>
 
-<!-- ========================================== -->
-<!-- VUE 4 : SCANNER QR CODE                     -->
-<!-- ========================================== -->
+<!-- VUE 4 : SCANNER QR -->
 <section id="view-scanner" class="view hidden">
   <div>
     <div class="card-title" style="color:var(--text-red);">// SCANNER UN CODE DU VILLAGE</div>
@@ -142,82 +133,72 @@
   <canvas id="qr-canvas" hidden></canvas>
 </section>
 
-<!-- ========================================== -->
-<!-- VUE 5 : CARTE TACTIQUE (LEAFLET)           -->
-<!-- ========================================== -->
+<!-- VUE 5 : CARTE TACTIQUE -->
 <section id="view-map" class="view hidden">
   <div>
-    <div class="card-title" style="color:var(--text-green);">// CARTE D'INFILTRATION HORS-LIGNE</div>
+    <div class="card-title">// CARTE D'INFILTRATION HORS-LIGNE</div>
     <div id="map-container"></div>
-    <p id="map-coords" style="font-size:0.65rem; color:#666; text-align:center;">POS: LAT -- / LNG --</p>
+    <p id="map-coords-text" style="font-size:0.65rem; color:#777; text-align:center;">POS: LAT -- / LNG --</p>
   </div>
 
   <div class="action-menu">
-    <button class="btn btn-primary" id="btn-center-gps">
+    <button class="btn" id="btn-center-gps">
       <span class="btn-text">RECENTRER LE SIGNAL GPS</span>
     </button>
     <button class="btn btn-tertiary" id="btn-close-map">RETOUR AU TABLEAU DE BORD</button>
   </div>
 </section>
 
-<!-- ========================================== -->
-<!-- VUE 6 : DIRECTIVE / DILEMME SADIQUE        -->
-<!-- ========================================== -->
+<!-- VUE 6 : DIRECTIVE SECRÈTE (DILEMME SADIQUE PASS-AND-PLAY) -->
 <section id="view-directive" class="view hidden">
-  <div>
-    <!-- ÉTAPE 1 : TRANSITION ET MASQUAGE D'ÉCRAN -->
-    <div id="veil-step-1">
-      <div class="card-title" style="color:var(--text-red); font-size:0.9rem; text-align:center;">
-        ⚠️ ORDRE CONFIDENTIEL ⚠️
-      </div>
-      
-      <p style="font-size:0.85rem; color:#fff; text-align:center; margin: 20px 0 10px 0;">
-        TRANSMETTEZ LE TERMINAL À L'AGENT :
-      </p>
+  <div id="veil-step-1">
+    <div class="card-title" style="color:var(--text-red); text-align:center;">⚠️ ORDRE CONFIDENTIEL ⚠️</div>
+    
+    <p style="font-size:0.85rem; color:#fff; text-align:center; margin: 25px 0 10px 0;">
+      TRANSMETTEZ LE TERMINAL À L'AGENT :
+    </p>
 
-      <div id="veil-target-agent" style="font-size:1.8rem; font-weight:bold; color:var(--text-amber); text-align:center; padding:15px; border:1px solid var(--text-amber); background:#050505;">
-        [ AGENT ]
-      </div>
-
-      <p style="font-size:0.7rem; color:var(--text-dim); text-align:center; margin-top:15px;">
-        Les autres agents doivent détourner le regard avant le déverrouillage.
-      </p>
-      
-      <button class="btn btn-danger" id="btn-unlock-directive" style="margin-top:25px; width:100%; text-align:center; align-items:center;">
-        DÉVERROUILLER LA DIRECTIVE
-      </button>
+    <div id="veil-target-agent" style="font-size:1.8rem; font-weight:bold; color:var(--text-amber); text-align:center; padding:15px; border:1px solid var(--text-amber); background:#050505;">
+      [ AGENT ]
     </div>
 
-    <!-- ÉTAPE 2 : CONTENU DU DILEMME ET DÉCISION -->
-    <div id="veil-step-2" class="hidden">
-      <div class="card-title" style="color:var(--text-red); font-size:0.8rem;">// DIRECTIVE SECRÈTE ACCORDÉE</div>
-      
-      <div class="card-panel" style="border-color:var(--text-red); background:rgba(255,34,51,0.05); margin-top:10px;">
-        <p id="secret-text-body" style="font-size:0.9rem; color:#fff; line-height:1.4; margin-bottom:15px;"></p>
-      </div>
+    <p style="font-size:0.7rem; color:#777; text-align:center; margin-top:15px;">
+      Les autres agents doivent détourner le regard avant le déverrouillage.
+    </p>
+    
+    <button class="btn btn-danger" id="btn-unlock-directive" style="margin-top:25px; width:100%;">
+      DÉVERROUILLER LA DIRECTIVE
+    </button>
+  </div>
 
-      <div style="margin-top:15px;">
-        <p style="font-size:0.75rem; color:var(--text-amber); margin-bottom:10px; text-align:center;">
-          VALIDER L'ISSUE DE LA DIRECTIVE :
-        </p>
+  <div id="veil-step-2" class="hidden">
+    <div class="card-title" style="color:var(--text-red);">// DIRECTIVE SECRÈTE ACCORDÉE</div>
+    
+    <div class="card-panel" style="border-color:var(--text-red); background:rgba(255,34,51,0.05); margin-top:10px;">
+      <p id="secret-text-body" style="font-size:0.9rem; color:#fff; line-height:1.4; margin-bottom:15px;"></p>
+    </div>
 
-        <div class="action-menu">
-          <button class="btn btn-primary" id="btn-directive-success">
-            <span class="btn-text">✔ ACCOMPLI</span>
-            <span class="btn-sub">Action/Sacrifice exécuté avec succès (0 Pénalité)</span>
-          </button>
+    <div style="margin-top:15px;">
+      <p style="font-size:0.75rem; color:var(--text-amber); margin-bottom:10px; text-align:center;">
+        VALIDER L'ISSUE DE LA DIRECTIVE :
+      </p>
 
-          <button class="btn btn-danger" id="btn-directive-fail">
-            <span class="btn-text">✖ ÉCHEC / REFUS</span>
-            <span class="btn-sub" id="fail-penalty-label">Sanction (-2 MIN appliquées)</span>
-          </button>
-        </div>
+      <div class="action-menu">
+        <button class="btn" id="btn-directive-success">
+          <span class="btn-text">✔ ACCOMPLI</span>
+          <span class="btn-sub">Action/Sacrifice exécuté avec succès (0 Pénalité)</span>
+        </button>
+
+        <button class="btn btn-danger" id="btn-directive-fail">
+          <span class="btn-text">✖ ÉCHEC / REFUS</span>
+          <span class="btn-sub" id="fail-penalty-label">Sanction (-2 MIN appliquées)</span>
+        </button>
       </div>
     </div>
   </div>
 </section>
 
-<!-- FOOTER LÉGAL -->
-<footer class="legal-warning">
-  ▲ AVERTISSEMENT : Jeu en environnement réel. Soyez attentifs à la circulation et aux règles de sécurité du village.
+<!-- FOOTER -->
+<footer class="sys-footer">
+  ⚠️ AVERTISSEMENT : Jeu en environnement réel. Soyez attentifs à la circulation et aux règles de sécurité du village.
 </footer>
